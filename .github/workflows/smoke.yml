@@ -1,0 +1,37 @@
+# Pinned by Release Bot after each sast-triage release. Do not edit by hand.
+name: smoke
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  clean:
+    name: clean project passes
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: lansiquo/sast-triage@v2.1.0
+        with:
+          path: fixtures/clean
+          base: none
+  p1:
+    name: planted P1 fails the gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: scan
+        uses: lansiquo/sast-triage@v2.1.0
+        continue-on-error: true
+        with:
+          path: fixtures/p1
+          base: none
+      - name: The planted P1 must fail the gate
+        run: test "${{ steps.scan.outcome }}" = failure
