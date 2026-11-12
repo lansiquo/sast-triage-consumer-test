@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: lansiquo/sast-triage@v2.4.1
+      - uses: lansiquo/sast-triage@de795f5eff09470a30888691a4cd053826e87b72
         with:
           path: fixtures/clean
           base: none
@@ -28,7 +28,7 @@ jobs:
         with:
           persist-credentials: false
       - id: scan
-        uses: lansiquo/sast-triage@v2.4.1
+        uses: lansiquo/sast-triage@de795f5eff09470a30888691a4cd053826e87b72
         continue-on-error: true
         with:
           path: fixtures/p1
